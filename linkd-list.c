@@ -16,7 +16,7 @@ void insetAfterPostion(struct node **start,int value,int index);
 void deleteFirst(struct node **start);
 void deleteLast(struct node **start);
 void deleteNodePostion(struct node **start,int index);
-
+void sortlinkedlist(struct node **start);
 void main(){
     struct node *start=NULL;
     printf("the value in start %d\n",start);
@@ -42,6 +42,9 @@ void menue(struct node **start){
     printf("enter 5 for delete first \n");
     printf("enter 6 for delete last \n");
     printf("enter 7 for delete after with postion\n");
+    printf("enter 8 for sort linkedlist\n");
+    
+    
     printf("enter any  other thing  for exit");
     scanf("%d",&n);
     if(n==0){
@@ -76,6 +79,8 @@ void menue(struct node **start){
         printf("enter the index");
         scanf("%d",&index);
         deleteNodePostion(start,index);
+    }else if(n==8){      
+        sortlinkedlist(start);
     }else{
         exit(0);
     }
@@ -241,3 +246,27 @@ void deleteNodePostion(struct node **st,int index){
     }
     menue(st);
 }
+
+
+void sortlinkedlist(struct node **st){
+    struct node *t;
+    int a,i;
+    t=*st;
+    for(i=0; t!=NULL; i++){
+        if(t->next!=NULL){
+            if(t->item>t->next->item){
+                a=t->item;
+                t->item=t->next->item;
+                t->next->item=a;
+                t=*st;
+            }
+        }
+        t=t->next;
+    }
+    menue(st);
+}
+
+
+
+// 19    0   12   18    9   18   14    9    1   11
+// 1,4,2,3,5
