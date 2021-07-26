@@ -3,6 +3,7 @@
 #include<stdlib.h>
 
 struct node{
+    struct node *prev;    
     int item;
     struct node *next;
 };
@@ -12,11 +13,12 @@ void print(struct node **start);
 void insetAtFirst(struct node **start,int value);
 void insetAtLast(struct node **start,int value);
 void insetAtPostion(struct node **start,int value,int index);
-void insetAfterPostion(struct node **start,int value,int index);
+// void insetAfterPostion(struct node **start,int value,int index);
 void deleteFirst(struct node **start);
 void deleteLast(struct node **start);
-void deleteNodePostion(struct node **start,int index);
+// void deleteNodePostion(struct node **start,int index);
 void sortlinkedlist(struct node **start);
+
 void main(){
     struct node *start=NULL;
     printf("the value in start %d\n",start);
@@ -68,7 +70,7 @@ void menue(struct node **start){
         scanf("%d",&value);
         printf("enter the index");
         scanf("%d",&index);
-        insetAfterPostion(start,value,index);
+        // insetAfterPostion(start,value,index);
     }else if(n==5){      
 
         deleteFirst(start);
@@ -78,7 +80,7 @@ void menue(struct node **start){
     }else if(n==7){      
         printf("enter the index");
         scanf("%d",&index);
-        deleteNodePostion(start,index);
+        // deleteNodePostion(start,index);
     }else if(n==8){      
         sortlinkedlist(start);
     }else{
@@ -101,171 +103,120 @@ void print(struct node **st){
 } 
 
 void insetAtFirst(struct node **st,int value){
-
-    printf("the value in side menue in st %d\n ",st);
-    printf("the  in side menue in st %d\n",*st);
-    // printf("the  in side menue in st %d\n ",&(*st));        
-    // printf("the address in side menue in st %d\n",&st);
     struct node *new;
     new=(struct node *)malloc(sizeof(struct node));
+    new->prev=NULL;
     new->item=value;
     new->next=*st;
     *st=new;
     menue(st);
+
 }
 
 void insetAtLast(struct node **st,int value){
-
-    printf("the value in side insetAtLast in st %d\n ",st);
-    printf("the  in side insetAtLast in st %d\n",*st);
-    // printf("the  in side insetAtLast in st %d\n ",&(*st));        
-    // printf("the address in side insetAtLast in st %d\n",&st);
     struct node *new,*t;
     new=(struct node *)malloc(sizeof(struct node));
-    // printf("the address in side menue in new %d\n",new);
-    // printf("the address in side menue in new %d\n",&new);
+    new->prev=NULL;
     new->item=value;
     new->next=NULL;
+
     if(*st==NULL){
         *st=new;
     }else{
         t=*st;
-        for (int i = 0; t->next!=NULL; i++){
-            // printf("the value is =%d \n",t->item);
-                t=t->next;
-        }
+       for (int i = 0; t->next!=NULL; i++)
+       {
+           t=t->next;
+       }
         t->next=new;
+        new->prev=t;
     }
-    menue(st);
-}
-
-void insetAfterPostion(struct node **st,int value,int index){
-    struct node *new=NULL,*t=NULL;
-    int i,count=0;
-    new=(struct node *)malloc(sizeof(struct node));
-    new->item=value;
-    t=*st;
-    printf("I inside insetAfterPostion %d \n",t->item);
-                // 0<1
-    for ( i = 0; i<index; i++){
-        if(t!=NULL){
-            t=t->next;
-            count++;
-        }
-    }
-    if(count>=index){ 
-        new->next=t->next;
-        t->next=new;
-    }else{
-        printf("out of bound");
-    }
-
-        
-    
-    menue(st);
-}
-
-void insetAtPostion(struct node **st,int value,int index){
-    struct node *new=NULL,*t=NULL;
-    int i,count=0;
-    new=(struct node *)malloc(sizeof(struct node));
-    new->item=value;
-    t=*st;
-    for ( i = 0; i<index-1; i++){
-        if(t!=NULL){
-            t=t->next;
-            count++;
-        }
-    }    
-    if(count>=index-1){ 
-        new->next=t->next;
-        t->next=new;
-    }else{
-        printf("out of bound");
-    }   
     menue(st);
 }
 
 
 void deleteFirst(struct node **st){
-    struct node *start;
-    start=*st;
-    if(*st){
-        *st=start->next;
-    }else{
+    struct node *t;
+    t=*st;
+    if(t==NULL){
         printf("nothing to delete");
+    }else{
+    *st=t->next;
+    t->next->prev=NULL;
+        // (*st)->prev=NULL;
     }
-    printf("the  in side insetAtLast in st %d\n ",(*st)->item);       
-    free(start);
+    free(t);
     menue(st);
 }
 
 void deleteLast(struct node **st){
-
-    struct node *start;
-    start=*st;
-
-    if (start->next == NULL) {
-         *st=NULL;
-         free(start);
-    }else{
-        for (int i = 0; start->next->next!=NULL; i++){
-            start=start->next;
-        }
-        free(start->next);
-        start->next=NULL;
-    }
-    menue(st);
-}
-
-
-
-void deleteNodePostion(struct node **st,int index){
-    struct node *t=NULL,*next;
-    int i,count=0;
+    struct node *t,*lastsecond;
     t=*st;
-    printf("I inside insetAfterPostion %d \n",t->item);
-    if (index==0) {
-        deleteFirst(st);
+    if(t->next==NULL){
+        free(t);
+        *st=NULL;
     }else{
-                // 0<1
-        for ( i = 0; i<index-1; i++){
-            if(t!=NULL){
-                t=t->next;
-                count++;
-            }
+        for (int i = 0; t->next!=NULL; i++){
+            t=t->next;
         }
-
-        if(count>=index-1){ 
-            next=t->next->next; 
-            free(t->next);
-            t->next=next;
-        }else{
-            printf("out of bound");
-        }
+        t->prev->next=NULL;
+        free(t);
     }
     menue(st);
+
 }
 
 
-void sortlinkedlist(struct node **st){
+void insetAtPostion(struct node **start,int value,int index){
+    struct node *new,*t;
+    int i;
+    new=(struct node *)malloc(sizeof(struct node));
+    new->item=value;
+    new->next=NULL;
+    new->prev=NULL;
+    t=*start;
+    for (i = 0; i<index-1; i++){
+        if(t!=NULL){
+            t=t->next; 
+        }
+    }
+    // printf("%d insertatpostion\n",i);
+    if(i==index-1){
+    // printf("%d insertatpostion\n",t->item); 
+        new->next=t->next;
+        new->prev=t;
+        t->next=new;
+    }else if(index==0){
+        new->next=t;
+        new->prev=NULL;
+        t->prev=new;
+        *start=new;
+    }else{
+        printf("undifined position");
+    }
+    menue(start);
+}
+
+// void insetAfterPostion(struct node **start,int value,int index){
+
+// }
+// 5 4
+void sortlinkedlist(struct node **start){
     struct node *t;
-    int a,i;
-    t=*st;
-    for(i=0; t!=NULL; i++){
+    int i=0,temp;
+    t=*start;
+    for (i = 0; t!=NULL; i++)
+    {
         if(t->next!=NULL){
             if(t->item>t->next->item){
-                a=t->item;
+                temp=t->item;
                 t->item=t->next->item;
-                t->next->item=a;
-                t=*st;
+                t->next->item=temp;
+                t=*start;
             }
         }
         t=t->next;
     }
-    menue(st);
+        menue(start);
 }
-
-
-// 19    0   12   18    9   18   14    9    1   11
-// 1,4,2,3,5
+// 1 4 2 3 5
