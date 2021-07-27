@@ -99,7 +99,6 @@ void print(struct node **st){
     }
        menue(st);
 } 
-
 void insetAtFirst(struct node **st,int value){
 
     printf("the value in side menue in st %d\n ",st);
@@ -269,3 +268,4 @@ void sortlinkedlist(struct node **st){
 
 // 19    0   12   18    9   18   14    9    1   11
 // 1,4,2,3,5
+// 5,3,2,4,1

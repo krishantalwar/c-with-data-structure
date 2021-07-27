@@ -108,7 +108,12 @@ void insetAtFirst(struct node **st,int value){
     new->prev=NULL;
     new->item=value;
     new->next=*st;
-    *st=new;
+    if(*st==NULL){
+        *st=new;
+    }else{
+        (*st)->prev=new;
+        *st=new;
+    }
     menue(st);
 
 }
@@ -119,7 +124,6 @@ void insetAtLast(struct node **st,int value){
     new->prev=NULL;
     new->item=value;
     new->next=NULL;
-
     if(*st==NULL){
         *st=new;
     }else{
@@ -141,8 +145,8 @@ void deleteFirst(struct node **st){
     if(t==NULL){
         printf("nothing to delete");
     }else{
-    *st=t->next;
-    t->next->prev=NULL;
+        *st=t->next;
+        t->next->prev=NULL;
         // (*st)->prev=NULL;
     }
     free(t);
@@ -220,3 +224,6 @@ void sortlinkedlist(struct node **start){
         menue(start);
 }
 // 1 4 2 3 5
+
+// netweb
+// 
