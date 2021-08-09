@@ -41,7 +41,7 @@ void menue(struct stack *arr){
     if(n==1){
         printf("enter the value \n");
         scanf("%d",&value);
-        push(arr);
+        push(arr,value);
     }else if(n==2){
         pop(arr);
     }else if(n==3){      
@@ -52,8 +52,10 @@ void menue(struct stack *arr){
 }
 
 void push(struct stack *arr,int value){
-    arr->ptr[arr->lastindex+1]=value;
-    arr->lastindex++;
+    if(arr->lastindex==arr->capicity-1){
+        arr->ptr[arr->lastindex+1]=value;
+        arr->lastindex++;
+    }
     menue(arr);
 }
 
