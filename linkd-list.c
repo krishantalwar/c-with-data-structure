@@ -17,6 +17,7 @@ void deleteFirst(struct node **start);
 void deleteLast(struct node **start);
 void deleteNodePostion(struct node **start,int index);
 void sortlinkedlist(struct node **start);
+void reversedlinkedlist(struct node **start);
 void main(){
     struct node *start=NULL;
     printf("the value in start %d\n",start);
@@ -43,6 +44,7 @@ void menue(struct node **start){
     printf("enter 6 for delete last \n");
     printf("enter 7 for delete after with postion\n");
     printf("enter 8 for sort linkedlist\n");
+    printf("enter 9 for revsrse linkedlist\n");
     
     
     printf("enter any  other thing  for exit");
@@ -81,6 +83,8 @@ void menue(struct node **start){
         deleteNodePostion(start,index);
     }else if(n==8){      
         sortlinkedlist(start);
+    }else if(n==9){      
+        reversedlinkedlist(start);
     }else{
         exit(0);
     }
@@ -264,6 +268,33 @@ void sortlinkedlist(struct node **st){
     }
     menue(st);
 }
+
+
+void reversedlinkedlist(struct node **start){
+    struct node *t=NULL,*t1=NULL;
+    int i=0;
+    if(((*start)->next!=NULL) && ((*start)!=NULL)){
+        t=(*start)->next;
+        (*start)->next=NULL;
+        for(i=0; t!=NULL; i++){
+            if(t->next!=NULL){
+                t1=t->next;
+            }
+            t->next=*start;
+            *start=t;
+            if(t1!=NULL){
+                t=t1;
+            }else{
+                break;
+            }
+            t1=NULL;
+        }        
+    }else{
+        printf("nothing to reverse");
+    }
+    menue(start);
+}
+
 
 
 // 19    0   12   18    9   18   14    9    1   11
