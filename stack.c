@@ -53,7 +53,9 @@ void menue(struct stack *arr){
 
 void push(struct stack *arr,int value){
     if(arr->lastindex==arr->capicity-1){
-        arr->ptr[arr->lastindex+1]=value;
+       printf("owerflow stack");
+    }else{
+         arr->ptr[arr->lastindex+1]=value;
         arr->lastindex++;
     }
     menue(arr);
